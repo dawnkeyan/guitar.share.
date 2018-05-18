@@ -19,5 +19,6 @@ class VerifyCsrfToken extends BaseVerifier
         'comment',
         'change_status_comment',
         'private_letter',
+        'delete_item',
     ];
 }

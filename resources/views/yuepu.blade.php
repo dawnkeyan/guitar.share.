@@ -42,7 +42,7 @@
                 <th>标题</th>
                 <th>封面图</th>
                 <th>创建时间</th>
-                <th>乐谱</th>
+                {{--<th>乐谱</th>--}}
                 <th>简介</th>
                 <th>操作</th>
             </tr>
@@ -50,27 +50,27 @@
             <tbody>
             @foreach ($yuepus as $item)
                 <tr>
-                    <td>{{ $item->name }}</td>
-                    <td><img src="{{ $item->cover }}" width="95" height="84"></td>
-                    <td>{{ $item->created_at }}</td>
-                    <td><a href="{{ $item->file }}">查看</a></td>
-                    <td>{{ $item->context }}</td>
+                    <td><a href="/comment?category_id={{ $item->id }}&category=yuepus">{{ $item->name }}</a></td>
+                    <td><a href="/comment?category_id={{ $item->id }}&category=yuepus"><img src="{{ $item->cover }}" width="95" height="84"></a></td>
+                    <td><a href="/comment?category_id={{ $item->id }}&category=yuepus">{{ $item->created_at }}</a></td>
+                    {{--<td><a href="{{ $item->file }}">查看</a></td>--}}
+                    <td><a href="/comment?category_id={{ $item->id }}&category=yuepus">{{ $item->context }}</a></td>
                     <td>
-                        <a href="{{ $item->file }}" download="{{ $item->file }}">
+                        {{--<a href="{{ $item->file }}" download="{{ $item->file }}">
                             <button type="button" class="btn btn-default">下载</button>
-                        </a>
+                        </a>--}}
                         @if ($user)
                             @if ($user->is_super==1)
                                 <button type="button" class="btn btn-danger" onclick="deleteYuepu({{ $item->id }})">删除</button>
-                                <a href="{{ url('/save_yuepu?id='.$item->id) }}"><button type="button" class="btn btn-warning">编辑</button></a>
+                                {{--<a href="{{ url('/save_yuepu?id='.$item->id) }}"><button type="button" class="btn btn-warning">编辑</button></a>
                                 @if ($item->is_recommend === 1)
                                     <button type="button" class="btn btn-default" onclick="recommend({{ $item->id }})">取消推荐</button>
                                 @else
                                     <button type="button" class="btn btn-default" onclick="recommend({{ $item->id }})">推荐</button>
-                                @endif
+                                @endif--}}
                             @endif
 
-                            @if ($item->is_like === 1)
+                            {{--@if ($item->is_like === 1)
                                 <button type="button" class="btn btn-default" onclick="like({{ $item->id }})">取消收藏</button>
                             @else
                                 <button type="button" class="btn btn-default" onclick="like({{ $item->id }})">收藏</button>
@@ -78,7 +78,7 @@
 
                                 <button type="button" class="btn btn-default">
                                     <a href="/comment?category_id={{ $item->id }}&category=yuepus">评论</a>
-                                </button>
+                                </button>--}}
 
                         @endif
                     </td>

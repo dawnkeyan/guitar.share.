@@ -102,6 +102,29 @@ Route::post('/private_letter', 'MessageController@privateLetter');
 Route::post('/user_info', 'UserController@save');
 Route::match(['get', 'post'],'/comment/{category_id?}/{category?}', 'CommentController@comment');
 
+Route::get('/delete_item/{id?}/{table?}', function (\Illuminate\Http\Request $request) {
+    if(!Auth::id()){
+        return response(['code'=>100,'message'=>'需要登录']);
+    }
+    $data = DB::table($request->input('table'))->where('id',$request->input('id'))->first();
+    if(!$data){
+        return response(['code'=>100,'message'=>'此数据不存在']);
+    }
+    if($request->input('table') == 'messages'){
+        if($data->from_user_id != Auth::id()){
+            return response(['code'=>100,'message'=>'不能删除别人的']);
+        }
+    }
+    else{
+        if($data->user_id != Auth::id()){
+            return response(['code'=>100,'message'=>'不能删除别人的']);
+        }
+    }
+
+    DB::table($request->input('table'))->where('id',$request->input('id'))->delete();
+    return response(['code'=>0,'message'=>'删除成功']);
+});
+
 Route::get('/change_status_comment{id?}', function (\Illuminate\Http\Request $request) {
     DB::table('comments')->where('id',$request->input('id'))->update(['status'=>1,
         'updated_at'=>date('Y-m-d H:i:s')]);

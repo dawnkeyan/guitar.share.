@@ -67,17 +67,13 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    {{--<li>
-                                        <a href="{{ url('') }}">
+                                    <li>
+                                        <a href="{{ url('/private_list') }}">
                                             私信
                                         </a>
-                                    </li>--}}
+                                    </li>
                                     @if(Auth::user()->is_super == 1)
-                                        <li>
-                                            <a href="{{ url('/private_list') }}">
-                                                私信
-                                            </a>
-                                        </li>
+
                                         <li>
                                             <a href="{{ url('/my_message_comment?type=comment') }}">
                                                 用户评轮

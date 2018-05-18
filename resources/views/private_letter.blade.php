@@ -27,7 +27,7 @@
                                 <tr>
                                     <div class="row">
                                         @if($item->from_user_id == $from_user->id)
-                                            <div class="col-md-6">
+                                            <div class="col-md-9">
                                                 @if(!empty($from_user->avatar))
                                                     <img src="{{ $from_user->avatar }}" width="45px" height="45px">
                                                 @else
@@ -36,17 +36,19 @@
 
 
                                                 :{{$item->context}}&nbsp;&nbsp;{{$item->created_at}}</div>
-                                            <div class="col-md-6"></div>
+                                            <div class="col-md-3"></div>
                                         @else
-                                            <div class="col-md-6"></div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-8">
                                                 @if(!empty($user->avatar))
                                                     <img src="{{ $user->avatar }}" width="45px" height="35px">
                                                 @else
                                                     {{ $user->name }}
                                                 @endif
 
-                                                :{{$item->context}}&nbsp;&nbsp;{{$item->created_at}}</div>
+                                                :{{$item->context}}&nbsp;&nbsp;{{$item->created_at}}
+                                                <button class="btn btn-danger" onclick="deleteItem({{ $item->id }})">删除</button>
+                                            </div>
                                         @endif
                                     </div>
                                 </tr>
@@ -61,6 +63,37 @@
     </div>
 @endsection
 <script>
+
+    function deleteItem(id) {
+        swal({
+                    title: "确定删除吗？",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定！",
+                    cancelButtonText: "取消！",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $.ajax({
+                        type:'GET',
+                        url:'/delete_item?id=' + id + '&table=messages',
+                        success:function (data) {
+                            if(data.code==0){
+                                window.location.reload();
+                            }
+                            else{
+                                swal(data.message);
+                            }
+
+                        },
+                        error:function (data) {
+                            console.log(data);
+                        }
+                    });
+                });
+    }
 
     function send_message(from_user_id) {
         var message = $("#message_input").val();

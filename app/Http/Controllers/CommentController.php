@@ -52,8 +52,26 @@ class CommentController extends Controller
                 'category_id' => 'required',
             ]);
         $user = Auth::user();
+
         $request = $request->all();
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+            //把此条资源下回复自己的评论标为已读
+            if($user){
+                DB::table('comments')->where([['category', '=', $request['category']],['status','=',0],
+                    ['category_id', '=', $request['category_id']],['be_user_id','=',$user->id]])
+                    ->update(['updated_at'=>date('Y-m-d H:i:s'),'status'=>1]);
+
+                //把提示管理员的一级评论对于管理员标为已读
+                if($user->is_super==1){
+                    DB::table('comments')->where([['category', '=', $request['category']],['status','=',0],
+                        ['category_id', '=', $request['category_id']]])
+                        ->whereNull('be_user_id')
+                        ->update(['updated_at'=>date('Y-m-d H:i:s'),'status'=>1]);
+                }
+            }
+
+
             $detail  = DB::table($request['category'])->where('id', $request['category_id'])->first();
             $comment = DB::table('comments')->where([['category', '=', $request['category']],
                 ['category_id', '=', $request['category_id']]])->orderBy('created_at', 'desc')->get();
@@ -64,7 +82,17 @@ class CommentController extends Controller
 
                 }
             }
-            return view('comment',['data'=>$detail,'user'=>$user,'comment'=>$comment]);
+            if($user){
+                if(DB::table('likes')->where([['category',$request['category']],['category_id',
+                    $request['category_id']],['user_id',$user->id]])->first()){
+                    $detail->is_like = 1;
+                }
+                else{
+                    $detail->is_like = 0;
+                }
+            }
+
+            return view('comment',['data'=>$detail,'user'=>$user,'comment'=>$comment,'category'=>$request['category']]);
         }
         else{
             if($user->id == $request['be_user_id']){

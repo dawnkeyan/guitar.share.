@@ -27,7 +27,7 @@ class MessageController extends Controller
         $from_user =  DB::table('users')->where('id',$request['user_id'])->first();
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
             //把此用户发给自己的信息标为已读
-            DB::table('messages')->where([['to_user_id','=',$user->id],
+            DB::table('messages')->where([['to_user_id','=',$user->id],['status','=',0],
                     ['from_user_id','=',$request['user_id']]])
                 ->update(['updated_at'=>date('Y-m-d H:i:s'),'status'=>1]);
 

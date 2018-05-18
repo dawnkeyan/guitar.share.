@@ -54,7 +54,7 @@
             <div class="row">
                 @foreach ($videos as $item)
                     <div class="col-md-3">
-                        <a href="{{ $item->file }}"><img src="{{ $item->cover }}" width="185" height="165">
+                        <a href="/comment?category_id={{ $item->id }}&category=videos"><img src="{{ $item->cover }}" width="185" height="165">
                             <div class="play">
                                 <img style="
                                         position: absolute;
@@ -67,7 +67,7 @@
                             </div>
                         </a>
                         <p>{{ $item->name }}</p>
-                        @if(!empty($user))
+                       {{-- @if(!empty($user))
                             @if ($item->is_like === 1)
                                 <button type="button" class="btn btn-default" onclick="like( {{ $item->id }}, 'videos')">
                                     取消收藏
@@ -82,7 +82,7 @@
                         </button>
                         <button type="button" class="btn btn-default">
                             <a href="{{ $item->file }}" download="{{ $item->file }}">下载</a>
-                        </button>
+                        </button>--}}
                         {{--@if ($user->is_super==1)
                             <button type="button" class="btn btn-default"
                                     onclick="recommend( {{ $item->id }} , 'video'">取消推荐
@@ -98,10 +98,10 @@
             <div class="row">
                 @foreach ($yuepus as $item)
                     <div class="col-md-3">
-                        <a href="{{ $item->file }}"><img src="{{ $item->cover }}" width="185" height="165">
+                        <a href="/comment?category_id={{ $item->id }}&category=yuepus"><img src="{{ $item->cover }}" width="185" height="165">
                             <p>{{ $item->name }}</p>
                         </a>
-                        @if(!empty($user))
+                        {{--@if(!empty($user))
                             @if ($item->is_like === 1)
                                 <button type="button" class="btn btn-default" onclick="like( {{ $item->id }}, 'yuepus')">
                                     取消收藏
@@ -117,7 +117,7 @@
                         </button>
                         <button type="button" class="btn btn-default">
                             <a href="{{ $item->file }}" download="{{ $item->file }}">下载</a>
-                        </button>
+                        </button>--}}
                         {{--@if ($user->is_super==1)
                             <button type="button" class="btn btn-default"
                                     onclick="recommend( {{ $item->id }} , 'yuepu'">取消推荐
